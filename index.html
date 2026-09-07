@@ -8,7 +8,6 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
     <style>
-        /* সব স্টাইল আগের মতোই */
         * { margin:0; padding:0; box-sizing:border-box; -webkit-tap-highlight-color:transparent; }
         body { font-family:'Plus Jakarta Sans',sans-serif; background:#0B0E14; color:#F3F4F6; display:flex; justify-content:center; align-items:center; min-height:100vh; }
         .app-card { width:100%; max-width:430px; height:100vh; background:#111622; position:relative; display:flex; flex-direction:column; overflow:hidden; border-color:#1F293D; }
@@ -26,6 +25,8 @@
         .nav-tab.active { color:#C084FC; }
         .nav-tab.active i { transform:translateY(-2px); }
         .flag-emoji { font-size:1.2rem; line-height:1; }
+        .ad-pulse { animation:pulseGlow 2s infinite; }
+        @keyframes pulseGlow { 0%,100%{ box-shadow:0 0 0 0 rgba(99,102,241,0.4); } 50%{ box-shadow:0 0 20px 8px rgba(99,102,241,0.2); } }
         .leaderboard-scroll { max-height:420px; overflow-y:auto; scrollbar-width:thin; scrollbar-color:#2D3A52 transparent; }
         .leaderboard-scroll::-webkit-scrollbar { width:3px; }
         .leaderboard-scroll::-webkit-scrollbar-track { background:transparent; }
@@ -91,17 +92,6 @@
         .task-type-badge.youtube { background:#7F1D1D; color:#FF0000; }
         .task-type-badge.telegram { background:#1A3B5C; color:#26A5E4; }
         .task-type-badge.other { background:#1E293B; color:#94A3B8; }
-
-        .ad-countdown {
-            font-size: 2.5rem;
-            font-weight: 800;
-            color: #C084FC;
-            animation: pulse 1s infinite;
-        }
-        @keyframes pulse {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0.4; }
-        }
     </style>
 </head>
 <body>
@@ -176,17 +166,9 @@
                     <span class="text-xs text-purple-300 font-bold bg-purple-500/20 px-3 py-1 rounded-full">৳ 10.00 / Ad</span>
                 </div>
                 <p class="text-xs text-slate-300 mb-4 leading-relaxed">Watch 30-second sponsored video clips. <strong class="text-emerald-400">Unlimited</strong> — watch as many as you want!</p>
-                
-                <div id="ad-container">
-                    <button id="task-ad" onclick="startAdWatch()" class="w-full glow-button py-3.5 rounded-2xl text-xs font-bold text-white flex items-center justify-center gap-2 ad-pulse">
-                        <i class="fa-solid fa-circle-play text-base"></i> Watch Ad Now
-                    </button>
-                    <div id="ad-countdown-display" class="text-center mt-3 hidden">
-                        <p class="text-xs text-slate-400">⏳ অনুগ্রহ করে অপেক্ষা করুন...</p>
-                        <div class="ad-countdown" id="ad-timer">30</div>
-                        <p class="text-xs text-slate-500">সেকেন্ড</p>
-                    </div>
-                </div>
+                <button id="task-ad" onclick="watchAd()" class="w-full glow-button py-3.5 rounded-2xl text-xs font-bold text-white flex items-center justify-center gap-2 ad-pulse">
+                    <i class="fa-solid fa-circle-play text-base"></i> Watch Ad Now
+                </button>
             </div>
 
             <h3 class="font-bold text-base text-white pt-2">📢 Channel & Social Tasks</h3>
@@ -388,7 +370,7 @@
 // ============================================================
 const ADMIN_SETTINGS_KEY = 'bangla_task_admin_settings';
 const USER_DATA_KEY = 'bangla_task_user_data';
-const VERIFY_API_URL = 'https://true-play.onrender.com/verify-membership';
+const VERIFY_API_URL = 'http://localhost:3000/verify-membership';
 
 function loadAdminSettings() {
     try {
@@ -459,46 +441,6 @@ function addCompletedTask(taskId) {
 function isTaskCompleted(taskId) { return getCompletedTasks().includes(taskId); }
 
 // ============================================================
-// AD WATCH WITH 30 SECOND COUNTDOWN
-// ============================================================
-let adTimer = null;
-let adCountdown = 30;
-let isAdWatching = false;
-
-function startAdWatch() {
-    if (isAdWatching) return;
-    
-    const btn = document.getElementById('task-ad');
-    const countdownDisplay = document.getElementById('ad-countdown-display');
-    const timerEl = document.getElementById('ad-timer');
-    
-    btn.classList.add('hidden');
-    countdownDisplay.classList.remove('hidden');
-    
-    isAdWatching = true;
-    adCountdown = 30;
-    timerEl.textContent = adCountdown;
-    
-    adTimer = setInterval(() => {
-        adCountdown--;
-        timerEl.textContent = adCountdown;
-        
-        if (adCountdown <= 0) {
-            clearInterval(adTimer);
-            adTimer = null;
-            
-            addToBalance(10);
-            showToast('🎬 Ad watched! +৳10 added to your balance.');
-            updateTotalIncome();
-            
-            btn.classList.remove('hidden');
-            countdownDisplay.classList.add('hidden');
-            isAdWatching = false;
-        }
-    }, 1000);
-}
-
-// ============================================================
 // RENDER TASKS
 // ============================================================
 function renderTasks() {
@@ -564,6 +506,7 @@ async function claimTaskReward() {
         return;
     }
 
+    // যদি channelId না থাকে, তাহলে পুরানো সিস্টেমের মতো কাজ করবে
     if (!channelId) {
         const rewardAmt = reward || 0;
         addToBalance(rewardAmt);
@@ -627,6 +570,28 @@ function closeModal(e) {
 }
 
 // ============================================================
+// ADS
+// ============================================================
+function watchAd() {
+    const btn = document.getElementById('task-ad');
+    const originalText = btn.innerHTML;
+    btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Watching...';
+    btn.disabled = true;
+    setTimeout(() => {
+        addToBalance(10);
+        btn.innerHTML = '<i class="fa-solid fa-check-circle"></i> +৳10 Added!';
+        btn.className = 'w-full py-3.5 rounded-2xl text-xs font-bold text-white flex items-center justify-center gap-2 bg-emerald-600 shadow-lg';
+        showToast('🎬 Ad watched! +৳10 added to your balance.');
+        updateTotalIncome();
+        setTimeout(() => {
+            btn.innerHTML = originalText;
+            btn.className = 'w-full glow-button py-3.5 rounded-2xl text-xs font-bold text-white flex items-center justify-center gap-2 ad-pulse';
+            btn.disabled = false;
+        }, 1200);
+    }, 2000);
+}
+
+// ============================================================
 // UI UPDATES
 // ============================================================
 function updateBalanceUI() {
@@ -655,7 +620,7 @@ function updateProfile() {
         vStatus.textContent = '✅ Verified';
         vStatus.className = 'text-xs text-emerald-400 font-bold';
     } else {
-        status.textContent = '🔒 Not Verified';
+        status.textContent = '⚠️ Not Verified';
         status.className = 'text-xs text-amber-400 font-bold';
         const s = getVerificationStatus();
         if (s === 'pending') {
@@ -672,35 +637,19 @@ function updateProfile() {
 }
 
 // ============================================================
-// WITHDRAW PAGE — শুধু ব্যালেন্স ১৫০০+ হলে ফর্ম দেখাবে
+// WITHDRAW PAGE
 // ============================================================
 function renderWithdrawPage() {
     const container = document.getElementById('withdraw-content');
     const balance = getBalance();
     const minWd = adminSettings.minWithdraw || 1500;
+    const isBalanceEnough = balance >= minWd;
 
-    // যদি ব্যালেন্স < ১৫০০ হয় — শুধু লক স্ক্রিন দেখাবে
-    if (balance < minWd) {
-        container.innerHTML = `
-            <div class="withdraw-lock glass-panel p-6 rounded-3xl">
-                <i class="fa-solid fa-lock text-amber-400"></i>
-                <h4>Minimum Balance Required</h4>
-                <p>আপনার বর্তমান ব্যালেন্স <strong>৳ ${balance.toFixed(2)}</strong>। <br/>উইড্র করতে কমপক্ষে <strong>৳ ${minWd}</strong> প্রয়োজন।</p>
-                <div class="mt-4 w-full h-2 bg-slate-800 rounded-full overflow-hidden">
-                    <div class="h-full bg-gradient-to-r from-purple-500 to-pink-500 rounded-full" style="width:${Math.min(100, (balance/minWd)*100)}%"></div>
-                </div>
-                <p class="text-xs text-slate-500 mt-2">Need <strong>৳ ${(minWd - balance).toFixed(2)}</strong> more to withdraw</p>
-            </div>
-        `;
-        return;
-    }
-
-    // ব্যালেন্স >= ১৫০০ — ফর্ম দেখাবে (ভেরিফিকেশন/উইথড্র)
     let html = `
         <div class="glass-panel p-5 rounded-3xl space-y-4">
             <div class="flex items-center gap-2 text-sm font-bold mb-2 ${isVerified() ? 'text-emerald-400' : 'text-amber-400'}">
                 <i class="fa-solid ${isVerified() ? 'fa-circle-check' : 'fa-shield-halved'}"></i>
-                ${isVerified() ? '✅ Account Verified' : '🔐 Verification Required'}
+                ${isVerified() ? '✅ Account Verified — আপনি উইড্র করতে পারেন' : '🔐 আপনার একাউন্ট ভেরিফাই করা হয়নি — সাবমিট করলে ভেরিফিকেশন পেজে নিয়ে যাবে'}
             </div>
             <div>
                 <label class="text-xs font-bold text-slate-200 block mb-2">Select Payout Method</label>
@@ -718,14 +667,31 @@ function renderWithdrawPage() {
                     <label class="text-xs font-bold text-slate-200">Withdraw Amount (BDT)</label>
                     <span class="text-xs text-purple-400 font-bold">Min: ৳ ${minWd}</span>
                 </div>
-                <input id="withdraw-amount" type="number" value="${minWd}" min="${minWd}" max="${balance}" class="w-full bg-slate-900 border border-slate-800 rounded-2xl px-4 py-3 text-sm text-white font-bold focus:border-purple-500 outline-none" />
+                <input id="withdraw-amount" type="number" value="${Math.min(balance, minWd)}" min="${minWd}" max="${balance}" class="w-full bg-slate-900 border border-slate-800 rounded-2xl px-4 py-3 text-sm text-white font-bold focus:border-purple-500 outline-none" />
                 <p class="text-xs text-slate-500 mt-1">Available: ৳ ${balance.toFixed(2)}</p>
             </div>
-            <button onclick="handleWithdrawSubmit()" class="w-full glow-button py-4 rounded-2xl text-xs font-bold text-white mt-2 text-sm tracking-wide">
-                ${isVerified() ? '💰 Submit Withdraw Request' : '🔐 Submit & Verify Account'}
-            </button>
-        </div>
     `;
+
+    if (!isBalanceEnough) {
+        html += `
+            <div class="balance-warning">
+                <i class="fa-solid fa-triangle-exclamation"></i>
+                <span>আপনার ব্যালেন্স <strong>৳ ${balance.toFixed(2)}</strong>। উইথড্র করতে কমপক্ষে <strong>৳ ${minWd}</strong> প্রয়োজন।</span>
+            </div>
+            <button disabled class="w-full glow-button py-4 rounded-2xl text-xs font-bold text-white mt-2 text-sm tracking-wide withdraw-btn-disabled">
+                <i class="fa-solid fa-lock"></i> Submit Request (Balance Low)
+            </button>
+        `;
+    } else {
+        const btnLabel = isVerified() ? '💰 Submit Withdraw Request' : '🔐 Submit & Verify Account';
+        html += `
+            <button onclick="handleWithdrawSubmit()" class="w-full glow-button py-4 rounded-2xl text-xs font-bold text-white mt-2 text-sm tracking-wide">
+                ${btnLabel}
+            </button>
+        `;
+    }
+
+    html += `</div>`;
     container.innerHTML = html;
     selectMethod('bkash');
 }
@@ -1299,7 +1265,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
 // Expose globals
 window.showPage = showPage;
-window.startAdWatch = startAdWatch;
+window.watchAd = watchAd;
 window.openTaskLink = openTaskLink;
 window.claimTaskReward = claimTaskReward;
 window.closeModal = closeModal;
