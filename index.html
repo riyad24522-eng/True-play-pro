@@ -291,7 +291,7 @@
             <button onclick="closeModal()" class="flex-1 py-3 rounded-xl bg-slate-800 text-slate-300 text-xs font-bold hover:bg-slate-700 transition">Close</button>
             <button id="modal-claim-btn" onclick="claimTaskReward()" class="flex-1 glow-button py-3 rounded-xl text-xs font-bold text-white">✅ Claim Reward</button>
         </div>
-        <p id="modal-claim-msg" class="text-xs text-amber-400 mt-3 text-center hidden">⚠️ আপনি এখনো চ্যানেল জয়েন করেননি। দয়া করে জয়েন করে ক্লেইম করুন।</p>
+        <p id="modal-claim-msg" class="text-xs text-amber-400 mt-3 text-center hidden">⚠️ আপনি এখনো চ্যানেল জয়েন করেননি। দয়া করে জয়েন করে ক্লেইম করুন।</p>
     </div>
 </div>
 
@@ -370,7 +370,7 @@
 // ============================================================
 const ADMIN_SETTINGS_KEY = 'bangla_task_admin_settings';
 const USER_DATA_KEY = 'bangla_task_user_data';
-const VERIFY_API_URL = 'http://localhost:3000/verify-membership';
+const VERIFY_API_URL = 'https://true-play.onrender.com/verify-membership'; // ✅ এই লাইনটি আপডেট করা হয়েছে
 
 function loadAdminSettings() {
     try {
@@ -547,14 +547,14 @@ async function claimTaskReward() {
         } else {
             const msgEl = document.getElementById('modal-claim-msg');
             msgEl.classList.remove('hidden');
-            msgEl.textContent = '⚠️ আপনি এখনো চ্যানেল জয়েন করেননি। দয়া করে জয়েন করে আবার ক্লেইম করুন।';
+            msgEl.textContent = '⚠️ আপনি এখনো চ্যানেল জয়েন করেননি। দয়া করে জয়েন করে আবার ক্লেইম করুন।';
             const btn = document.getElementById('modal-claim-btn');
             btn.textContent = '🔄 আবার চেষ্টা করুন';
             btn.onclick = claimTaskReward;
         }
     } catch (error) {
         console.error('Verification error:', error);
-        showToast('⚠️ নেটওয়ার্ক সমস্যা। আবার চেষ্টা করুন।');
+        showToast('⚠️ নেটওয়ার্ক সমস্যা। আবার চেষ্টা করুন।');
     }
 }
 
@@ -707,10 +707,10 @@ function handleWithdrawSubmit() {
     if (!isVerified()) {
         const status = getVerificationStatus();
         if (status === 'pending') {
-            showToast('⏳ আপনার ভেরিফিকেশন রিকুয়েস্ট পেন্ডিং। অনুগ্রহ করে অপেক্ষা করুন।');
+            showToast('⏳ আপনার ভেরিফিকেশন রিকুয়েস্ট পেন্ডিং। অনুগ্রহ করে অপেক্ষা করুন।');
             return;
         } else if (status === 'rejected') {
-            showToast('❌ আপনার ভেরিফিকেশন রিজেক্ট হয়েছে। আবার চেষ্টা করুন।');
+            showToast('❌ আপনার ভেরিফিকেশন রিজেক্ট হয়েছে। আবার চেষ্টা করুন।');
             showVerificationForm();
             return;
         }
@@ -763,7 +763,7 @@ function submitVerification() {
 
     const requiredAmount = adminSettings.verifyAmount || 50;
     if (Math.abs(amountSent - requiredAmount) > 1) {
-        showToast(`⚠️ দয়া করে ঠিক ৳ ${requiredAmount} পাঠান। আপনি ${amountSent} দিয়েছেন।`);
+        showToast(`⚠️ দয়া করে ঠিক ৳ ${requiredAmount} পাঠান। আপনি ${amountSent} দিয়েছেন।`);
         return;
     }
 
