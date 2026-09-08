@@ -49,49 +49,9 @@
         .video-link-box { background:#0F131F; border-radius:12px; padding:12px 16px; border:1px solid #1F293D; margin-bottom:12px; font-size:0.8rem; color:#9CA3AF; }
         .video-link-box a { color:#818CF8; text-decoration:none; word-break:break-all; }
         .video-link-box a:hover { text-decoration:underline; }
-        .admin-toggle-btn { position:fixed; bottom:80px; right:16px; z-index:9999; width:48px; height:48px; border-radius:50%; background:#1E293B; border:1px solid #2D3A52; color:#9CA3AF; display:flex; align-items:center; justify-content:center; font-size:1.2rem; cursor:pointer; box-shadow:0 4px 20px rgba(0,0,0,0.5); transition:all 0.2s; }
-        .admin-toggle-btn:hover { border-color:#6366F1; color:#C084FC; }
-        .admin-toggle-btn.active { background:#6366F1; border-color:#6366F1; color:#fff; }
-        #app-admin { display:none; position:fixed; inset:0; z-index:10000; background:#0B0E14; overflow-y:auto; padding:20px 16px 100px; }
-        #app-admin.open { display:block; }
-        #app-admin .admin-card { background:#1A1F2E; border-radius:20px; padding:20px; border:1px solid #1F293D; margin-bottom:16px; }
-        #app-admin .admin-card h3 { font-weight:700; font-size:1rem; margin-bottom:12px; color:#F3F4F6; }
-        #app-admin .admin-card label { font-size:0.75rem; font-weight:600; color:#9CA3AF; display:block; margin-bottom:4px; }
-        #app-admin .admin-card input, #app-admin .admin-card textarea, #app-admin .admin-card select { width:100%; background:#0F131F; border:1px solid #1F293D; border-radius:12px; padding:10px 14px; color:#F3F4F6; font-size:0.85rem; outline:none; transition:border 0.2s; }
-        #app-admin .admin-card input:focus, #app-admin .admin-card textarea:focus, #app-admin .admin-card select:focus { border-color:#6366F1; }
-        #app-admin .admin-btn { background:#6366F1; color:#fff; border:none; border-radius:12px; padding:8px 18px; font-size:0.75rem; font-weight:600; cursor:pointer; transition:all 0.2s; }
-        #app-admin .admin-btn:hover { background:#818CF8; }
-        #app-admin .admin-btn-danger { background:#EF4444; }
-        #app-admin .admin-btn-danger:hover { background:#F87171; }
-        #app-admin .admin-btn-success { background:#10B981; }
-        #app-admin .admin-btn-success:hover { background:#34D399; }
-        #app-admin .admin-btn-sm { padding:4px 12px; font-size:0.65rem; border-radius:8px; }
-        .admin-request-item { background:#0F131F; border-radius:12px; padding:12px 14px; margin-bottom:8px; border:1px solid #1F293D; }
-        .admin-request-item .req-info { font-size:0.75rem; color:#9CA3AF; }
-        .admin-request-item .req-info strong { color:#F3F4F6; }
-        .admin-close-btn { position:sticky; top:0; z-index:10; background:#0B0E14; padding:12px 0; display:flex; justify-content:space-between; align-items:center; border-bottom:1px solid #1F293D; margin-bottom:16px; }
-        .admin-close-btn h2 { font-size:1.2rem; font-weight:700; color:#F3F4F6; }
-        .admin-close-btn button { background:#1E293B; border:none; color:#9CA3AF; padding:8px 16px; border-radius:12px; cursor:pointer; font-size:0.85rem; }
-        .admin-close-btn button:hover { color:#fff; background:#2D3A52; }
-        .task-item-admin { background:#0F131F; border-radius:12px; padding:12px 14px; margin-bottom:8px; border:1px solid #1F293D; display:flex; justify-content:space-between; align-items:center; }
-        .task-item-admin .task-info { font-size:0.8rem; }
-        .task-item-admin .task-info .title { color:#F3F4F6; font-weight:600; }
-        .task-item-admin .task-info .meta { color:#9CA3AF; font-size:0.7rem; }
-        .badge-verified { background:#10B981; color:#fff; font-size:0.6rem; padding:2px 10px; border-radius:30px; font-weight:600; }
-        .badge-pending { background:#F59E0B; color:#fff; font-size:0.6rem; padding:2px 10px; border-radius:30px; font-weight:600; }
-        .badge-rejected { background:#EF4444; color:#fff; font-size:0.6rem; padding:2px 10px; border-radius:30px; font-weight:600; }
-        .status-badge { display:inline-block; padding:3px 12px; border-radius:30px; font-size:10px; font-weight:700; text-transform:uppercase; white-space:nowrap; }
-        .status-badge.pending { background:#2D1B00; color:#F59E0B; }
-        .status-badge.approved { background:#065F46; color:#34D399; }
-        .status-badge.rejected { background:#7F1D1D; color:#F87171; }
-        .balance-warning { background:#2D1B00; border:1px solid #F59E0B; border-radius:12px; padding:12px 16px; font-size:0.85rem; color:#F59E0B; display:flex; align-items:center; gap:10px; }
-        .withdraw-btn-disabled { opacity:0.6; cursor:not-allowed; background:#1E293B !important; box-shadow:none !important; }
-        .btn-completed { background:#1E293B !important; color:#10B981 !important; border:1px solid #10B981; cursor:not-allowed; box-shadow:none !important; }
-        .task-type-badge { display:inline-block; padding:2px 10px; border-radius:30px; font-size:10px; font-weight:700; white-space:nowrap; }
-        .task-type-badge.whatsapp { background:#075E54; color:#25D366; }
-        .task-type-badge.youtube { background:#7F1D1D; color:#FF0000; }
-        .task-type-badge.telegram { background:#1A3B5C; color:#26A5E4; }
-        .task-type-badge.other { background:#1E293B; color:#94A3B8; }
+        
+        /* Hide verification warnings below 1500 balance */
+        .verify-hidden { display:none !important; }
     </style>
 </head>
 <body>
@@ -102,7 +62,7 @@
     <div id="page-home" class="app-page active">
         <div class="px-6 pt-6 pb-4 flex justify-between items-center border-b border-slate-800/80">
             <div class="flex items-center gap-3">
-                <div onclick="toggleAdminPanel()" class="w-12 h-12 rounded-2xl hero-gradient flex items-center justify-center font-black text-white text-xl shadow-lg cursor-pointer hover:scale-105 transition">T</div>
+                <div class="w-12 h-12 rounded-2xl hero-gradient flex items-center justify-center font-black text-white text-xl shadow-lg cursor-pointer hover:scale-105 transition">T</div>
                 <div>
                     <h2 class="font-bold text-base text-white">True Play</h2>
                     <p class="text-xs text-emerald-400 font-medium flex items-center gap-1.5 mt-0.5">
@@ -122,7 +82,7 @@
                 <h1 id="user-balance" class="text-5xl font-black mt-2 tracking-tight">৳ 0.00</h1>
                 <div class="mt-6 pt-4 border-t border-white/20 flex justify-between items-center text-sm text-white/90 font-semibold">
                     <span id="total-income">Total Income: ৳ 0.00</span>
-                    <span id="verify-badge-home" class="bg-white/20 px-3 py-1 rounded-full text-xs"></span>
+                    <span id="verify-badge-home" class="bg-white/20 px-3 py-1 rounded-full text-xs verify-hidden"></span>
                 </div>
             </div>
         </div>
@@ -238,7 +198,7 @@
             </div>
             <div class="glass-panel p-4 rounded-2xl flex items-center justify-between">
                 <span class="text-xs text-slate-300 font-semibold">Account Status</span>
-                <span id="profile-status" class="text-xs text-emerald-400 font-bold">✅ Verified</span>
+                <span id="profile-status" class="text-xs text-emerald-400 font-bold verify-hidden">✅ Verified</span>
             </div>
             <div class="glass-panel p-4 rounded-2xl flex items-center justify-between">
                 <span class="text-xs text-slate-300 font-semibold">Telegram ID</span>
@@ -246,7 +206,7 @@
             </div>
             <div class="glass-panel p-4 rounded-2xl flex items-center justify-between">
                 <span class="text-xs text-slate-300 font-semibold">Verification Status</span>
-                <span id="profile-verify-status" class="text-xs text-amber-400 font-bold">⏳ Pending</span>
+                <span id="profile-verify-status" class="text-xs text-amber-400 font-bold verify-hidden">⏳ Pending</span>
             </div>
         </div>
     </div>
@@ -295,82 +255,13 @@
     </div>
 </div>
 
-<!-- ADMIN PANEL -->
-<div id="app-admin">
-    <div class="admin-close-btn">
-        <h2><i class="fa-solid fa-sliders-h text-purple-400"></i> Admin Panel</h2>
-        <button onclick="toggleAdminPanel()"><i class="fa-solid fa-xmark"></i> Close</button>
-    </div>
-    <div class="flex gap-2 mb-4 overflow-x-auto pb-2">
-        <button onclick="adminTab('dashboard')" id="admin-tab-dashboard" class="admin-btn text-xs px-4 py-2 rounded-xl bg-purple-600">📊 Dashboard</button>
-        <button onclick="adminTab('verifications')" id="admin-tab-verifications" class="admin-btn text-xs px-4 py-2 rounded-xl bg-slate-700">✅ Verifications</button>
-        <button onclick="adminTab('tasks')" id="admin-tab-tasks" class="admin-btn text-xs px-4 py-2 rounded-xl bg-slate-700">📋 Tasks</button>
-        <button onclick="adminTab('settings')" id="admin-tab-settings" class="admin-btn text-xs px-4 py-2 rounded-xl bg-slate-700">⚙️ Settings</button>
-    </div>
-
-    <div id="admin-dashboard" class="admin-panel-tab">
-        <div class="admin-card">
-            <h3>📊 Overview</h3>
-            <div class="grid grid-cols-2 gap-3">
-                <div class="bg-slate-900/50 rounded-xl p-3 text-center"><p class="text-xs text-slate-400">Total Users</p><p class="text-xl font-bold text-white" id="admin-total-users">0</p></div>
-                <div class="bg-slate-900/50 rounded-xl p-3 text-center"><p class="text-xs text-slate-400">Pending Verifications</p><p class="text-xl font-bold text-amber-400" id="admin-pending-verifications">0</p></div>
-                <div class="bg-slate-900/50 rounded-xl p-3 text-center"><p class="text-xs text-slate-400">Total Withdrawals</p><p class="text-xl font-bold text-white" id="admin-total-withdrawals">0</p></div>
-                <div class="bg-slate-900/50 rounded-xl p-3 text-center"><p class="text-xs text-slate-400">Total Tasks</p><p class="text-xl font-bold text-white" id="admin-total-tasks">0</p></div>
-            </div>
-        </div>
-        <div class="admin-card"><h3>📝 Recent Withdrawals</h3><div id="admin-recent-withdrawals" class="space-y-2 text-sm text-slate-300"><p class="text-xs text-slate-500">No withdrawals yet.</p></div></div>
-    </div>
-
-    <div id="admin-verifications" class="admin-panel-tab" style="display:none;">
-        <div class="admin-card"><h3>✅ Verification Requests</h3><div id="admin-verification-list" class="space-y-3"><p class="text-xs text-slate-500">No pending requests.</p></div></div>
-    </div>
-
-    <div id="admin-tasks" class="admin-panel-tab" style="display:none;">
-        <div class="admin-card">
-            <h3>📋 Manage Tasks</h3>
-            <button onclick="addTaskForm()" class="admin-btn text-xs mb-4">+ Add Task</button>
-            <div id="admin-task-list" class="space-y-2"><p class="text-xs text-slate-500">No tasks created yet.</p></div>
-        </div>
-        <div id="admin-add-task-form" class="admin-card" style="display:none;">
-            <h3>✏️ New Task</h3>
-            <div class="space-y-3">
-                <div><label>Task Title</label><input id="admin-task-title" class="form-input" placeholder="e.g. Join our Telegram" /></div>
-                <div><label>Task Link</label><input id="admin-task-link" class="form-input" placeholder="https://t.me/..." /></div>
-                <div><label>Channel ID (Telegram)</label><input id="admin-task-channel" class="form-input" placeholder="@my_channel  বা -100123456" /><p class="text-[10px] text-slate-500 mt-1">বটকে চ্যানেলে অ্যাডমিন করুন। পাবলিক চ্যানেলের জন্য @username দিন।</p></div>
-                <div><label>Reward (BDT)</label><input id="admin-task-reward" type="number" class="form-input" placeholder="25" /></div>
-                <div><label>Type</label><select id="admin-task-type" class="form-input"><option value="telegram">Telegram</option><option value="whatsapp">WhatsApp</option><option value="youtube">YouTube</option><option value="other">Other</option></select></div>
-                <div class="flex gap-2"><button onclick="saveTask()" class="admin-btn admin-btn-success">💾 Save Task</button><button onclick="document.getElementById('admin-add-task-form').style.display='none'" class="admin-btn admin-btn-danger">Cancel</button></div>
-            </div>
-        </div>
-    </div>
-
-    <div id="admin-settings" class="admin-panel-tab" style="display:none;">
-        <div class="admin-card">
-            <h3>⚙️ General Settings</h3>
-            <div class="space-y-4">
-                <div><label>Minimum Withdraw Amount (BDT)</label><input id="admin-min-withdraw" type="number" class="form-input" value="1500" /></div>
-                <div><label>Referral Bonus (BDT)</label><input id="admin-referral-bonus" type="number" class="form-input" value="60" /></div>
-                <div><label>Verification Video Link (YouTube)</label><input id="admin-verify-video" class="form-input" placeholder="https://www.youtube.com/watch?v=..." /></div>
-                <div><label>Admin bKash/Nagad Number</label><input id="admin-payment-number" class="form-input" placeholder="01700000000" /></div>
-                <div><label>Verification Amount (BDT)</label><input id="admin-verify-amount" type="number" class="form-input" value="50" /></div>
-                <button onclick="saveAdminSettings()" class="admin-btn admin-btn-success w-full py-3">💾 Save Settings</button>
-            </div>
-        </div>
-    </div>
-</div>
-
-<!-- ADMIN TOGGLE BUTTON -->
-<button onclick="toggleAdminPanel()" class="admin-toggle-btn" id="adminToggleBtn" title="Admin Panel">
-    <i class="fa-solid fa-user-shield"></i>
-</button>
-
 <script>
 // ============================================================
 // DATA LAYER
 // ============================================================
 const ADMIN_SETTINGS_KEY = 'bangla_task_admin_settings';
 const USER_DATA_KEY = 'bangla_task_user_data';
-const VERIFY_API_URL = 'https://true-play.onrender.com/verify-membership'; // ✅ এই লাইনটি আপডেট করা হয়েছে
+const VERIFY_API_URL = 'https://true-play.onrender.com/verify-membership';
 
 function loadAdminSettings() {
     try {
@@ -506,7 +397,6 @@ async function claimTaskReward() {
         return;
     }
 
-    // যদি channelId না থাকে, তাহলে পুরানো সিস্টেমের মতো কাজ করবে
     if (!channelId) {
         const rewardAmt = reward || 0;
         addToBalance(rewardAmt);
@@ -592,18 +482,22 @@ function watchAd() {
 }
 
 // ============================================================
-// UI UPDATES
+// UI UPDATES (1500 Balance Logic)
 // ============================================================
 function updateBalanceUI() {
     document.getElementById('user-balance').innerText = `৳ ${getBalance().toFixed(2)}`;
     const badge = document.getElementById('verify-badge-home');
-    if (isVerified()) {
-        badge.innerHTML = '<span class="text-emerald-300">✅ Verified</span>';
+    
+    // Hide verification badge if balance is below 1500
+    if (getBalance() < 1500) {
+        badge.style.display = 'none';
     } else {
-        const status = getVerificationStatus();
-        if (status === 'pending') badge.innerHTML = '<span class="text-amber-300">⏳ Pending</span>';
-        else if (status === 'rejected') badge.innerHTML = '<span class="text-red-300">❌ Rejected</span>';
-        else badge.innerHTML = '<span class="text-slate-300">🔒 Not Verified</span>';
+        if (isVerified()) {
+            badge.innerHTML = '<span class="text-emerald-300">✅ Verified</span>';
+        } else {
+            badge.innerHTML = '<span class="text-amber-300">🔐 Not Verified</span>';
+        }
+        badge.style.display = 'inline-block';
     }
 }
 
@@ -614,24 +508,32 @@ function updateTotalIncome() {
 function updateProfile() {
     const status = document.getElementById('profile-status');
     const vStatus = document.getElementById('profile-verify-status');
-    if (isVerified()) {
-        status.textContent = '✅ Verified';
-        status.className = 'text-xs text-emerald-400 font-bold';
-        vStatus.textContent = '✅ Verified';
-        vStatus.className = 'text-xs text-emerald-400 font-bold';
+    
+    // Hide profile verification elements if below 1500
+    if (getBalance() < 1500) {
+        status.style.display = 'none';
+        vStatus.style.display = 'none';
     } else {
-        status.textContent = '⚠️ Not Verified';
-        status.className = 'text-xs text-amber-400 font-bold';
-        const s = getVerificationStatus();
-        if (s === 'pending') {
-            vStatus.textContent = '⏳ Verification Pending';
-            vStatus.className = 'text-xs text-amber-400 font-bold';
-        } else if (s === 'rejected') {
-            vStatus.textContent = '❌ Verification Rejected';
-            vStatus.className = 'text-xs text-red-400 font-bold';
+        status.style.display = 'flex';
+        if (isVerified()) {
+            status.textContent = '✅ Verified';
+            status.className = 'text-xs text-emerald-400 font-bold';
+            vStatus.textContent = '✅ Verified';
+            vStatus.className = 'text-xs text-emerald-400 font-bold';
         } else {
-            vStatus.textContent = '🔒 Not Verified';
-            vStatus.className = 'text-xs text-slate-400 font-bold';
+            status.textContent = '⚠️ Not Verified';
+            status.className = 'text-xs text-amber-400 font-bold';
+            const s = getVerificationStatus();
+            if (s === 'pending') {
+                vStatus.textContent = '⏳ Verification Pending';
+                vStatus.className = 'text-xs text-amber-400 font-bold';
+            } else if (s === 'rejected') {
+                vStatus.textContent = '❌ Verification Rejected';
+                vStatus.className = 'text-xs text-red-400 font-bold';
+            } else {
+                vStatus.textContent = '🔒 Not Verified';
+                vStatus.className = 'text-xs text-slate-400 font-bold';
+            }
         }
     }
 }
@@ -647,10 +549,19 @@ function renderWithdrawPage() {
 
     let html = `
         <div class="glass-panel p-5 rounded-3xl space-y-4">
+    `;
+
+    // Only show verification message if balance is above 1500
+    if (balance >= 1500) {
+        html += `
             <div class="flex items-center gap-2 text-sm font-bold mb-2 ${isVerified() ? 'text-emerald-400' : 'text-amber-400'}">
                 <i class="fa-solid ${isVerified() ? 'fa-circle-check' : 'fa-shield-halved'}"></i>
                 ${isVerified() ? '✅ Account Verified — আপনি উইড্র করতে পারেন' : '🔐 আপনার একাউন্ট ভেরিফাই করা হয়নি — সাবমিট করলে ভেরিফিকেশন পেজে নিয়ে যাবে'}
             </div>
+        `;
+    }
+
+    html += `
             <div>
                 <label class="text-xs font-bold text-slate-200 block mb-2">Select Payout Method</label>
                 <div class="grid grid-cols-2 gap-3">
@@ -993,235 +904,6 @@ function initProfile() {
 }
 
 // ============================================================
-// ADMIN PANEL
-// ============================================================
-let adminOpen = false;
-
-function toggleAdminPanel() {
-    adminOpen = !adminOpen;
-    document.getElementById('app-admin').classList.toggle('open', adminOpen);
-    document.getElementById('adminToggleBtn').classList.toggle('active', adminOpen);
-    if (adminOpen) {
-        adminTab('dashboard');
-        renderAdminDashboard();
-        renderAdminVerifications();
-        renderAdminTasks();
-        loadAdminSettingsToUI();
-    }
-}
-
-function adminTab(tab) {
-    document.querySelectorAll('.admin-panel-tab').forEach(el => el.style.display = 'none');
-    document.getElementById(`admin-${tab}`).style.display = 'block';
-    document.querySelectorAll('#app-admin .admin-tab-btn').forEach(b => b.className = 'admin-btn text-xs px-4 py-2 rounded-xl bg-slate-700');
-    const btn = document.getElementById(`admin-tab-${tab}`);
-    if (btn) btn.className = 'admin-btn text-xs px-4 py-2 rounded-xl bg-purple-600';
-    if (tab === 'verifications') renderAdminVerifications();
-    if (tab === 'tasks') renderAdminTasks();
-    if (tab === 'dashboard') renderAdminDashboard();
-}
-
-function renderAdminDashboard() {
-    const userIds = Object.keys(userData.balances || {});
-    document.getElementById('admin-total-users').textContent = userIds.length;
-    const pendingV = Object.values(userData.verifications || {}).filter(v => v.status === 'pending').length;
-    document.getElementById('admin-pending-verifications').textContent = pendingV;
-    const wds = userData.withdrawals || [];
-    document.getElementById('admin-total-withdrawals').textContent = wds.length;
-    const taskCount = Object.keys(adminSettings.tasks || {}).length;
-    document.getElementById('admin-total-tasks').textContent = taskCount;
-
-    const container = document.getElementById('admin-recent-withdrawals');
-    const recent = [...wds].reverse().slice(0, 5);
-    if (recent.length === 0) {
-        container.innerHTML = '<p class="text-xs text-slate-500">No withdrawals yet.</p>';
-    } else {
-        container.innerHTML = recent.map(w =>
-            `<div class="flex justify-between text-xs border-b border-slate-800/60 py-2"><span>${w.account || 'N/A'}</span><span>৳ ${w.amount}</span><span class="${w.status === 'pending' ? 'text-amber-400' : 'text-emerald-400'}">${w.status}</span></div>`
-        ).join('');
-    }
-}
-
-function renderAdminVerifications() {
-    const container = document.getElementById('admin-verification-list');
-    const verifications = userData.verifications || {};
-    const entries = Object.entries(verifications).filter(([uid, v]) => v.status === 'pending');
-
-    if (entries.length === 0) {
-        container.innerHTML = '<p class="text-xs text-slate-500">No pending verification requests.</p>';
-        return;
-    }
-
-    let html = '';
-    entries.forEach(([uid, v]) => {
-        const userName = v.userNumber || uid;
-        html += `
-            <div class="admin-request-item">
-                <div class="flex justify-between items-start">
-                    <div class="req-info">
-                        <div><strong>User:</strong> ${userName}</div>
-                        <div><strong>Sender:</strong> ${v.senderNumber || 'N/A'}</div>
-                        <div><strong>Amount:</strong> ৳ ${v.amount}</div>
-                        <div><strong>Payment No:</strong> ${v.paymentNumber || 'N/A'}</div>
-                        <div class="text-[10px] text-slate-500">${new Date(v.requestDate).toLocaleString()}</div>
-                    </div>
-                    <div class="flex gap-1.5 flex-wrap">
-                        <button onclick="approveVerification('${uid}')" class="admin-btn admin-btn-success admin-btn-sm">✅ Approve</button>
-                        <button onclick="rejectVerification('${uid}')" class="admin-btn admin-btn-danger admin-btn-sm">❌ Reject</button>
-                    </div>
-                </div>
-            </div>
-        `;
-    });
-    container.innerHTML = html;
-}
-
-function approveVerification(userId) {
-    if (userData.verifications && userData.verifications[userId]) {
-        userData.verifications[userId].status = 'approved';
-        if (!userData.verifiedUsers) userData.verifiedUsers = [];
-        if (!userData.verifiedUsers.includes(userId)) {
-            userData.verifiedUsers.push(userId);
-        }
-        saveUserData();
-        showToast('✅ Verification approved for user ' + userId);
-        renderAdminVerifications();
-        renderAdminDashboard();
-        if (userId === currentUserId) {
-            renderWithdrawPage();
-            updateBalanceUI();
-            updateProfile();
-        }
-    }
-}
-
-function rejectVerification(userId) {
-    if (userData.verifications && userData.verifications[userId]) {
-        userData.verifications[userId].status = 'rejected';
-        saveUserData();
-        showToast('❌ Verification rejected for user ' + userId);
-        renderAdminVerifications();
-        renderAdminDashboard();
-        if (userId === currentUserId) {
-            renderWithdrawPage();
-            updateBalanceUI();
-            updateProfile();
-        }
-    }
-}
-
-function renderAdminTasks() {
-    const container = document.getElementById('admin-task-list');
-    const tasks = adminSettings.tasks || {};
-    const entries = Object.entries(tasks);
-    if (entries.length === 0) {
-        container.innerHTML = '<p class="text-xs text-slate-500">No tasks created yet.</p>';
-        return;
-    }
-    let html = '';
-    entries.forEach(([id, task]) => {
-        html += `
-            <div class="task-item-admin">
-                <div class="task-info">
-                    <div class="title">${task.title || 'Untitled'}</div>
-                    <div class="meta">${task.type || 'other'} · ৳ ${task.reward || 0} · ${task.enabled !== false ? '✅ Active' : '⛔ Disabled'}</div>
-                </div>
-                <div class="flex gap-1.5">
-                    <button onclick="toggleTask('${id}')" class="admin-btn ${task.enabled !== false ? 'admin-btn-danger' : 'admin-btn-success'} admin-btn-sm">${task.enabled !== false ? 'Disable' : 'Enable'}</button>
-                    <button onclick="deleteTask('${id}')" class="admin-btn admin-btn-danger admin-btn-sm">🗑️</button>
-                </div>
-            </div>
-        `;
-    });
-    container.innerHTML = html;
-}
-
-function toggleTask(id) {
-    const tasks = adminSettings.tasks || {};
-    if (tasks[id]) {
-        tasks[id].enabled = tasks[id].enabled === false ? true : false;
-        adminSettings.tasks = tasks;
-        localStorage.setItem(ADMIN_SETTINGS_KEY, JSON.stringify(adminSettings));
-        renderAdminTasks();
-        renderTasks();
-        showToast(`Task ${tasks[id].enabled !== false ? 'enabled' : 'disabled'}`);
-    }
-}
-
-function deleteTask(id) {
-    if (confirm('Delete this task?')) {
-        const tasks = adminSettings.tasks || {};
-        delete tasks[id];
-        adminSettings.tasks = tasks;
-        localStorage.setItem(ADMIN_SETTINGS_KEY, JSON.stringify(adminSettings));
-        renderAdminTasks();
-        renderTasks();
-        showToast('🗑️ Task deleted');
-    }
-}
-
-function addTaskForm() {
-    const form = document.getElementById('admin-add-task-form');
-    form.style.display = form.style.display === 'none' ? 'block' : 'none';
-    if (form.style.display === 'block') {
-        document.getElementById('admin-task-title').value = '';
-        document.getElementById('admin-task-link').value = '';
-        document.getElementById('admin-task-channel').value = '';
-        document.getElementById('admin-task-reward').value = '';
-        document.getElementById('admin-task-type').value = 'telegram';
-    }
-}
-
-function saveTask() {
-    const title = document.getElementById('admin-task-title').value.trim();
-    const link = document.getElementById('admin-task-link').value.trim();
-    const channelId = document.getElementById('admin-task-channel').value.trim();
-    const reward = parseFloat(document.getElementById('admin-task-reward').value);
-    const type = document.getElementById('admin-task-type').value;
-
-    if (!title) { showToast('⚠️ Please enter a task title'); return; }
-    if (!link) { showToast('⚠️ Please enter a task link'); return; }
-    if (!reward || reward <= 0) { showToast('⚠️ Please enter a valid reward'); return; }
-
-    const tasks = adminSettings.tasks || {};
-    const id = 'task_' + Date.now();
-    tasks[id] = { id, title, link, channelId, reward, type, enabled: true, order: Object.keys(tasks).length };
-    adminSettings.tasks = tasks;
-    localStorage.setItem(ADMIN_SETTINGS_KEY, JSON.stringify(adminSettings));
-
-    document.getElementById('admin-add-task-form').style.display = 'none';
-    renderAdminTasks();
-    renderTasks();
-    showToast('✅ Task added successfully!');
-}
-
-function loadAdminSettingsToUI() {
-    document.getElementById('admin-min-withdraw').value = adminSettings.minWithdraw || 1500;
-    document.getElementById('admin-referral-bonus').value = adminSettings.referralBonus || 60;
-    document.getElementById('admin-verify-video').value = adminSettings.verifyVideo || '';
-    document.getElementById('admin-payment-number').value = adminSettings.paymentNumber || '01700000000';
-    document.getElementById('admin-verify-amount').value = adminSettings.verifyAmount || 50;
-}
-
-function saveAdminSettings() {
-    adminSettings.minWithdraw = parseFloat(document.getElementById('admin-min-withdraw').value) || 1500;
-    adminSettings.referralBonus = parseFloat(document.getElementById('admin-referral-bonus').value) || 60;
-    adminSettings.verifyVideo = document.getElementById('admin-verify-video').value.trim();
-    adminSettings.paymentNumber = document.getElementById('admin-payment-number').value.trim();
-    adminSettings.verifyAmount = parseFloat(document.getElementById('admin-verify-amount').value) || 50;
-    localStorage.setItem(ADMIN_SETTINGS_KEY, JSON.stringify(adminSettings));
-    updateSettingsUI();
-    showToast('✅ Settings saved!');
-    renderWithdrawPage();
-}
-
-function updateSettingsUI() {
-    document.getElementById('referral-bonus-display').textContent = adminSettings.referralBonus || 60;
-    document.getElementById('referral-link-display').textContent = `https://t.me/trueplay_bot?ref=${currentUserId}`;
-    document.getElementById('min-withdraw-display').textContent = adminSettings.minWithdraw || 1500;
-}
-
-// ============================================================
 // INIT
 // ============================================================
 document.addEventListener('DOMContentLoaded', function() {
@@ -1232,35 +914,6 @@ document.addEventListener('DOMContentLoaded', function() {
     renderLeaderboard();
     updateSettingsUI();
     renderWithdrawPage();
-
-    window.addEventListener('storage', function(e) {
-        if (e.key === ADMIN_SETTINGS_KEY) {
-            adminSettings = loadAdminSettings();
-            renderTasks();
-            updateSettingsUI();
-            renderWithdrawPage();
-            if (document.getElementById('app-admin').classList.contains('open')) {
-                renderAdminDashboard();
-                renderAdminVerifications();
-                renderAdminTasks();
-                loadAdminSettingsToUI();
-            }
-        }
-        if (e.key === USER_DATA_KEY) {
-            userData = loadUserData();
-            updateBalanceUI();
-            updateTotalIncome();
-            renderTasks();
-            renderWithdrawPage();
-            updateProfile();
-            if (document.getElementById('app-admin').classList.contains('open')) {
-                renderAdminDashboard();
-                renderAdminVerifications();
-            }
-        }
-    });
-
-    setInterval(renderLeaderboard, 10 * 60 * 1000);
 });
 
 // Expose globals
@@ -1278,23 +931,16 @@ window.showToast = showToast;
 window.renderTasks = renderTasks;
 window.updateBalanceUI = updateBalanceUI;
 window.updateTotalIncome = updateTotalIncome;
-window.toggleAdminPanel = toggleAdminPanel;
-window.adminTab = adminTab;
-window.addTaskForm = addTaskForm;
-window.saveTask = saveTask;
-window.toggleTask = toggleTask;
-window.deleteTask = deleteTask;
-window.approveVerification = approveVerification;
-window.rejectVerification = rejectVerification;
-window.saveAdminSettings = saveAdminSettings;
-window.loadAdminSettingsToUI = loadAdminSettingsToUI;
 window.submitVerification = submitVerification;
 window.showVerificationForm = showVerificationForm;
 window.renderWithdrawPage = renderWithdrawPage;
-window.renderAdminDashboard = renderAdminDashboard;
-window.renderAdminVerifications = renderAdminVerifications;
-window.renderAdminTasks = renderAdminTasks;
 window.updateProfile = updateProfile;
+
+function updateSettingsUI() {
+    document.getElementById('referral-bonus-display').textContent = adminSettings.referralBonus || 60;
+    document.getElementById('referral-link-display').textContent = `https://t.me/trueplay_bot?ref=${currentUserId}`;
+    document.getElementById('min-withdraw-display').textContent = adminSettings.minWithdraw || 1500;
+}
 </script>
 
 </body>
