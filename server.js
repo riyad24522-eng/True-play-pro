@@ -7,8 +7,8 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-// আপনার বট টোকেন
-const BOT_TOKEN = '8206830214:AAHKtCZSZ9fpI7hN1PifvAuQiQkx90_-aOc';
+// আপনার বট টোকেন (Render Environment Variable থেকে নেওয়া ভালো)
+const BOT_TOKEN = process.env.BOT_TOKEN || '8206830214:AAHKtCZSZ9fpI7hN1PifvAuQiQkx90_-aOc';
 
 // চ্যানেল লিস্ট
 const CHANNELS = {
@@ -27,28 +27,29 @@ app.get('/', (req, res) => {
 });
 
 // ভেরিফিকেশন এন্ডপয়েন্ট
-app.post('/verify_membership', async (req, res) => {
-    const { user_id, channel_id } = req.body;
+app.post('/verify-membership', async (req, res) => {
+    // ফ্রন্টএন্ড থেকে পাঠানো ডেটা (camelCase)
+    const { userId, channelId } = req.body;
 
     // ভ্যালিডেশন
-    if (!user_id) {
+    if (!userId) {
         return res.status(400).json({ 
             success: false, 
-            error: 'user_id is required' 
+            error: 'userId is required' 
         });
     }
-    if (!channel_id) {
+    if (!channelId) {
         return res.status(400).json({ 
             success: false, 
-            error: 'channel_id is required' 
+            error: 'channelId is required' 
         });
     }
 
-    const chat_id = CHANNELS[channel_id];
+    const chat_id = CHANNELS[channelId];
     if (!chat_id) {
         return res.status(400).json({ 
             success: false, 
-            error: 'Invalid channel_id. Use: channel_1, channel_2, or channel_3' 
+            error: 'Invalid channelId. Use: channel_1, channel_2, or channel_3' 
         });
     }
 
@@ -56,7 +57,7 @@ app.post('/verify_membership', async (req, res) => {
         const url = `https://api.telegram.org/bot${BOT_TOKEN}/getChatMember`;
         const response = await axios.post(url, {
             chat_id: chat_id,
-            user_id: String(user_id)
+            user_id: String(userId)
         });
 
         const result = response.data.result;
