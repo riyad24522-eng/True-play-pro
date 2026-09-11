@@ -209,7 +209,7 @@
         </div>
     </div>
 
-    <!-- BOTTOM NAV -->
+    <!-- BOTTOM NAV (Fixed) -->
     <div class="absolute bottom-0 left-0 right-0 glass-panel border-t border-slate-800/80 px-4 py-3.5 flex justify-around items-center z-50">
         <button class="nav-tab active flex flex-col items-center gap-1" data-page="page-home" onclick="showPage('page-home')">
             <i class="fa-solid fa-house text-lg"></i><span class="text-xs font-bold">Home</span>
@@ -254,6 +254,11 @@
 </div>
 
 <script>
+// ============================================================
+// পুরনো ভুল টাস্ক মুছে ফেলার ব্যবস্থা
+// ============================================================
+localStorage.removeItem('bangla_task_admin_settings');
+
 // ============================================================
 // PERMANENT CONFIGURATION
 // ============================================================
@@ -312,7 +317,6 @@ function loadAdminSettings() {
         const raw = localStorage.getItem(ADMIN_SETTINGS_KEY);
         if (raw) {
             const p = JSON.parse(raw);
-            // টাস্ক না থাকলে পার্মানেন্ট টাস্ক বসিয়ে দিন
             if (!p.tasks || Object.keys(p.tasks).length === 0) {
                 p.tasks = PERMANENT_TASKS;
             }
