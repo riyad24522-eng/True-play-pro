@@ -25,8 +25,6 @@
         .nav-tab.active { color:#C084FC; }
         .nav-tab.active i { transform:translateY(-2px); }
         .flag-emoji { font-size:1.2rem; line-height:1; }
-        .ad-pulse { animation:pulseGlow 2s infinite; }
-        @keyframes pulseGlow { 0%,100%{ box-shadow:0 0 0 0 rgba(99,102,241,0.4); } 50%{ box-shadow:0 0 20px 8px rgba(99,102,241,0.2); } }
         .leaderboard-scroll { max-height:420px; overflow-y:auto; scrollbar-width:thin; scrollbar-color:#2D3A52 transparent; }
         .leaderboard-scroll::-webkit-scrollbar { width:3px; }
         .leaderboard-scroll::-webkit-scrollbar-track { background:transparent; }
@@ -38,10 +36,6 @@
         .modal-link { background:#0F131F; border-radius:16px; padding:14px 16px; display:flex; align-items:center; gap:12px; word-break:break-all; font-size:0.85rem; border:1px solid #1F293D; }
         .telegram-avatar { width:72px; height:72px; border-radius:50%; object-fit:cover; border:2px solid #6366F1; background:#1E293B; }
         .toast-msg { position:fixed; bottom:100px; left:50%; transform:translateX(-50%); background:#1E293B; color:#F3F4F6; padding:12px 24px; border-radius:18px; font-size:0.85rem; font-weight:600; border:1px solid #2D3A52; box-shadow:0 10px 30px rgba(0,0,0,0.5); z-index:1000; animation:fadeIn 0.3s ease; max-width:90%; text-align:center; }
-        .withdraw-lock { text-align:center; padding:30px 20px; }
-        .withdraw-lock i { font-size:3rem; color:#F59E0B; margin-bottom:12px; }
-        .withdraw-lock h4 { font-weight:700; font-size:1.1rem; color:#F3F4F6; }
-        .withdraw-lock p { font-size:0.85rem; color:#9CA3AF; margin-top:4px; }
         .verification-form { background:#0F131F; border-radius:16px; padding:20px; border:1px solid #1F293D; }
         .verification-form label { font-size:0.75rem; font-weight:600; color:#9CA3AF; display:block; margin-bottom:4px; }
         .verification-form input { width:100%; background:#111622; border:1px solid #1F293D; border-radius:12px; padding:10px 14px; color:#F3F4F6; font-size:0.85rem; outline:none; margin-bottom:12px; }
@@ -103,10 +97,10 @@
             </div>
             <div class="glass-panel p-4 rounded-2xl flex items-center justify-between">
                 <div class="flex items-center gap-3">
-                    <div class="w-12 h-12 rounded-xl bg-indigo-500/15 text-indigo-400 flex items-center justify-center text-xl"><i class="fa-solid fa-play"></i></div>
-                    <div><h4 class="font-bold text-sm text-white">Daily Video Ads</h4><p class="text-xs text-slate-400 mt-0.5">Unlimited ads available</p></div>
+                    <div class="w-12 h-12 rounded-xl bg-indigo-500/15 text-indigo-400 flex items-center justify-center text-xl"><i class="fa-solid fa-list-check"></i></div>
+                    <div><h4 class="font-bold text-sm text-white">Channel Tasks</h4><p class="text-xs text-slate-400 mt-0.5">Join channels & earn</p></div>
                 </div>
-                <button onclick="showPage('page-earn')" class="glow-button px-4 py-2 rounded-xl text-xs font-bold text-white">Watch</button>
+                <button onclick="showPage('page-earn')" class="glow-button px-4 py-2 rounded-xl text-xs font-bold text-white">View</button>
             </div>
         </div>
     </div>
@@ -115,21 +109,10 @@
     <div id="page-earn" class="app-page">
         <div class="px-6 pt-6 pb-4 border-b border-slate-800/80">
             <h2 class="font-bold text-lg text-white">Earn Rewards</h2>
-            <p class="text-xs text-slate-400 mt-0.5">Complete tasks & watch ads to earn</p>
+            <p class="text-xs text-slate-400 mt-0.5">Complete tasks to earn</p>
         </div>
         <div class="p-6 space-y-5">
-            <div class="glass-panel p-5 rounded-3xl border-purple-500/30">
-                <div class="flex justify-between items-center mb-3">
-                    <span class="text-sm font-bold text-white">📺 Watch Video Ads</span>
-                    <span class="text-xs text-purple-300 font-bold bg-purple-500/20 px-3 py-1 rounded-full">৳ 10.00 / Ad</span>
-                </div>
-                <p class="text-xs text-slate-300 mb-4 leading-relaxed">Watch 30-second sponsored video clips. <strong class="text-emerald-400">Unlimited</strong> — watch as many as you want!</p>
-                <button id="task-ad" onclick="watchAd()" class="w-full glow-button py-3.5 rounded-2xl text-xs font-bold text-white flex items-center justify-center gap-2 ad-pulse">
-                    <i class="fa-solid fa-circle-play text-base"></i> Watch Ad Now
-                </button>
-            </div>
-
-            <h3 class="font-bold text-base text-white pt-2">📢 Channel & Social Tasks</h3>
+            <h3 class="font-bold text-base text-white">📢 Channel & Social Tasks</h3>
             <div id="task-list-container" class="space-y-4"></div>
         </div>
     </div>
@@ -310,7 +293,8 @@ const PERMANENT_TASKS = {
 // ============================================================
 const ADMIN_SETTINGS_KEY = 'bangla_task_admin_settings';
 const USER_DATA_KEY = 'bangla_task_user_data';
-const VERIFY_API_URL = 'https://true-play.onrender.com/verify-membership';
+// 🔥 এখানে আপনার Render-এর সঠিক লিংক (-pro সহ)
+const VERIFY_API_URL = 'https://true-play-pro.onrender.com/verify-membership';
 
 function loadAdminSettings() {
     try {
@@ -516,28 +500,6 @@ function closeModal(e) {
     btn.textContent = '✅ Claim Reward';
     btn.onclick = claimTaskReward;
     currentTask = null;
-}
-
-// ============================================================
-// ADS
-// ============================================================
-function watchAd() {
-    const btn = document.getElementById('task-ad');
-    const originalText = btn.innerHTML;
-    btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Watching...';
-    btn.disabled = true;
-    setTimeout(() => {
-        addToBalance(10);
-        btn.innerHTML = '<i class="fa-solid fa-check-circle"></i> +৳10 Added!';
-        btn.className = 'w-full py-3.5 rounded-2xl text-xs font-bold text-white flex items-center justify-center gap-2 bg-emerald-600 shadow-lg';
-        showToast('🎬 Ad watched! +৳10 added to your balance.');
-        updateTotalIncome();
-        setTimeout(() => {
-            btn.innerHTML = originalText;
-            btn.className = 'w-full glow-button py-3.5 rounded-2xl text-xs font-bold text-white flex items-center justify-center gap-2 ad-pulse';
-            btn.disabled = false;
-        }, 1200);
-    }, 2000);
 }
 
 // ============================================================
@@ -973,7 +935,6 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 window.showPage = showPage;
-window.watchAd = watchAd;
 window.openTaskLink = openTaskLink;
 window.claimTaskReward = claimTaskReward;
 window.closeModal = closeModal;
