@@ -49,8 +49,6 @@
         .video-link-box { background:#0F131F; border-radius:12px; padding:12px 16px; border:1px solid #1F293D; margin-bottom:12px; font-size:0.8rem; color:#9CA3AF; }
         .video-link-box a { color:#818CF8; text-decoration:none; word-break:break-all; }
         .video-link-box a:hover { text-decoration:underline; }
-        
-        /* Hide verification warnings below 1500 balance */
         .verify-hidden { display:none !important; }
     </style>
 </head>
@@ -251,11 +249,57 @@
             <button onclick="closeModal()" class="flex-1 py-3 rounded-xl bg-slate-800 text-slate-300 text-xs font-bold hover:bg-slate-700 transition">Close</button>
             <button id="modal-claim-btn" onclick="claimTaskReward()" class="flex-1 glow-button py-3 rounded-xl text-xs font-bold text-white">✅ Claim Reward</button>
         </div>
-        <p id="modal-claim-msg" class="text-xs text-amber-400 mt-3 text-center hidden">⚠️ আপনি এখনো চ্যানেল জয়েন করেননি। দয়া করে জয়েন করে ক্লেইম করুন।</p>
+        <p id="modal-claim-msg" class="text-xs text-amber-400 mt-3 text-center hidden">⚠️ আপনি এখনো টেলিগ্রামে জয়েন হননি। দয়া করে জয়েন করে ক্লেইম করুন।</p>
     </div>
 </div>
 
 <script>
+// ============================================================
+// PERMANENT CONFIGURATION
+// ============================================================
+const BOT_TOKEN = '8206830214:AAHKtCZSZ9fpI7hN1PifvAuQiQkx90_-aOc';
+const CHANNELS = {
+    'channel_1': '@trueplaychannel1',
+    'channel_2': '@trueplaychannel2',
+    'channel_3': '@trueplaychannel3'
+};
+
+// ============================================================
+// আপনার ৩টি চ্যানেলের টাস্ক (প্রতিটি ৬০ টাকা)
+// ============================================================
+const PERMANENT_TASKS = {
+    'task_channel_1': {
+        id: 'task_channel_1',
+        title: 'Join Channel 1',
+        link: 'https://t.me/trueplaychannel1',
+        reward: 60,
+        type: 'telegram',
+        channelId: 'channel_1',
+        enabled: true,
+        order: 1
+    },
+    'task_channel_2': {
+        id: 'task_channel_2',
+        title: 'Join Channel 2',
+        link: 'https://t.me/trueplaychannel2',
+        reward: 60,
+        type: 'telegram',
+        channelId: 'channel_2',
+        enabled: true,
+        order: 2
+    },
+    'task_channel_3': {
+        id: 'task_channel_3',
+        title: 'Join Channel 3',
+        link: 'https://t.me/trueplaychannel3',
+        reward: 60,
+        type: 'telegram',
+        channelId: 'channel_3',
+        enabled: true,
+        order: 3
+    }
+};
+
 // ============================================================
 // DATA LAYER
 // ============================================================
@@ -268,7 +312,10 @@ function loadAdminSettings() {
         const raw = localStorage.getItem(ADMIN_SETTINGS_KEY);
         if (raw) {
             const p = JSON.parse(raw);
-            if (!p.tasks) p.tasks = {};
+            // টাস্ক না থাকলে পার্মানেন্ট টাস্ক বসিয়ে দিন
+            if (!p.tasks || Object.keys(p.tasks).length === 0) {
+                p.tasks = PERMANENT_TASKS;
+            }
             if (!p.minWithdraw) p.minWithdraw = 1500;
             if (!p.referralBonus) p.referralBonus = 60;
             if (!p.verifyVideo) p.verifyVideo = '';
@@ -277,7 +324,14 @@ function loadAdminSettings() {
             return p;
         }
     } catch (e) {}
-    return { tasks: {}, minWithdraw: 1500, referralBonus: 60, verifyVideo: '', paymentNumber: '01700000000', verifyAmount: 50 };
+    return { 
+        tasks: PERMANENT_TASKS, 
+        minWithdraw: 1500, 
+        referralBonus: 60, 
+        verifyVideo: '', 
+        paymentNumber: '01700000000', 
+        verifyAmount: 50 
+    };
 }
 
 function loadUserData() {
@@ -358,9 +412,9 @@ function renderTasks() {
             <div class="glass-panel p-4 rounded-2xl flex items-center justify-between gap-2">
                 <div class="flex items-center gap-3">
                     <div class="w-12 h-12 rounded-xl ${color} flex items-center justify-center text-2xl"><i class="${icon}"></i></div>
-                    <div><h4 class="font-bold text-sm text-white">${task.title || 'Untitled'}</h4><p class="text-xs text-emerald-400 font-semibold mt-0.5">+ ৳ ${task.reward || 0}.00 Reward</p></div>
+                    <div><h4 class="font-bold text-sm text-white">${task.title || 'Untitled'}</h4><p class="text-xs text-emerald-400 font-semibold mt-0.5">+ ৳ ${task.reward || 60}.00 Reward</p></div>
                 </div>
-                <button ${completed ? 'disabled' : ''} onclick="${completed ? '' : `openTaskLink('${task.link}', '${task.title}', ${task.reward || 0}, '${task.id}', '${channelId}')`}" class="${btnClass}" data-task-id="${task.id}">${btnText}</button>
+                <button ${completed ? 'disabled' : ''} onclick="${completed ? '' : `openTaskLink('${task.link}', '${task.title}', ${task.reward || 60}, '${task.id}', '${channelId}')`}" class="${btnClass}" data-task-id="${task.id}">${btnText}</button>
             </div>
         `;
     });
@@ -398,7 +452,7 @@ async function claimTaskReward() {
     }
 
     if (!channelId) {
-        const rewardAmt = reward || 0;
+        const rewardAmt = reward || 60;
         addToBalance(rewardAmt);
         addCompletedTask(taskId);
         showToast(`🎉 ${title} completed! +৳${rewardAmt} added.`);
@@ -426,7 +480,7 @@ async function claimTaskReward() {
         }
 
         if (data.isMember) {
-            const rewardAmt = reward || 0;
+            const rewardAmt = reward || 60;
             addToBalance(rewardAmt);
             addCompletedTask(taskId);
             showToast(`🎉 ${title} completed! +৳${rewardAmt} added.`);
@@ -435,9 +489,10 @@ async function claimTaskReward() {
             updateTotalIncome();
             currentTask = null;
         } else {
+            // ⚠️ চ্যানেলে জয়েন না থাকলে এই মেসেজ দেখাবে
             const msgEl = document.getElementById('modal-claim-msg');
             msgEl.classList.remove('hidden');
-            msgEl.textContent = '⚠️ আপনি এখনো চ্যানেল জয়েন করেননি। দয়া করে জয়েন করে আবার ক্লেইম করুন।';
+            msgEl.textContent = '⚠️ আপনি এখনো টেলিগ্রামে জয়েন হননি। দয়া করে জয়েন করে আবার ক্লেইম করুন।';
             const btn = document.getElementById('modal-claim-btn');
             btn.textContent = '🔄 আবার চেষ্টা করুন';
             btn.onclick = claimTaskReward;
@@ -482,13 +537,12 @@ function watchAd() {
 }
 
 // ============================================================
-// UI UPDATES (1500 Balance Logic)
+// UI UPDATES
 // ============================================================
 function updateBalanceUI() {
     document.getElementById('user-balance').innerText = `৳ ${getBalance().toFixed(2)}`;
     const badge = document.getElementById('verify-badge-home');
     
-    // Hide verification badge if balance is below 1500
     if (getBalance() < 1500) {
         badge.style.display = 'none';
     } else {
@@ -509,7 +563,6 @@ function updateProfile() {
     const status = document.getElementById('profile-status');
     const vStatus = document.getElementById('profile-verify-status');
     
-    // Hide profile verification elements if below 1500
     if (getBalance() < 1500) {
         status.style.display = 'none';
         vStatus.style.display = 'none';
@@ -551,7 +604,6 @@ function renderWithdrawPage() {
         <div class="glass-panel p-5 rounded-3xl space-y-4">
     `;
 
-    // Only show verification message if balance is above 1500
     if (balance >= 1500) {
         html += `
             <div class="flex items-center gap-2 text-sm font-bold mb-2 ${isVerified() ? 'text-emerald-400' : 'text-amber-400'}">
@@ -916,7 +968,6 @@ document.addEventListener('DOMContentLoaded', function() {
     renderWithdrawPage();
 });
 
-// Expose globals
 window.showPage = showPage;
 window.watchAd = watchAd;
 window.openTaskLink = openTaskLink;
